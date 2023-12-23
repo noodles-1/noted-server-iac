@@ -21,17 +21,17 @@ resource "aws_ecs_task_definition" "demo_app_task" {
   container_definitions = <<DEFINITION
   [
     {
-        "name": "${var.demo_app_task_name}",
-        "image": "${var.ecr_repo_url}"
-        "essential": true,
-        "portMappings": [
-            {
-                "containerPort": ${var.container_port},
-                "hostPort": ${var.container_port}
-            }
-        ],
-        "memory": 512,
-        "cpu": 256,
+      "name": "${var.demo_app_task_name}",
+      "image": "${var.ecr_repo_url}",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": ${var.container_port},
+          "hostPort": ${var.container_port}
+        }
+      ],
+      "memory": 512,
+      "cpu": 256
     }
   ]
   DEFINITION
@@ -45,7 +45,7 @@ resource "aws_ecs_task_definition" "demo_app_task" {
 
 resource "aws_iam_role" "ecs_task_execution_role" {
   name               = var.ecs_task_execution_role_name
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
@@ -98,7 +98,7 @@ resource "aws_lb_listener" "listener" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.arn
-  }     
+  }
 }
 
 resource "aws_ecs_service" "demo_app_service" {
@@ -116,9 +116,9 @@ resource "aws_ecs_service" "demo_app_service" {
 
   network_configuration {
     subnets = [
-        "${aws_default_subnet.default_subnet_a.id}",
-        "${aws_default_subnet.default_subnet_b.id}",
-        "${aws_default_subnet.default_subnet_c.id}"
+      "${aws_default_subnet.default_subnet_a.id}",
+      "${aws_default_subnet.default_subnet_b.id}",
+      "${aws_default_subnet.default_subnet_c.id}"
     ]
 
     assign_public_ip = true
