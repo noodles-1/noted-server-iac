@@ -1,0 +1,11 @@
+.terraform
+.terraform.*
+
+locals.tf
+providers.tf
+main.tf
+
+terraform.tfstate
+terraform.tfstate.*
+.tfstate
+.tfstate.*
